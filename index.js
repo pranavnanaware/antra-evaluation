@@ -178,12 +178,12 @@ const Controller = ((model, view) => {
     }
   };
 
-  const handleIncreaseAmount = (item) => {
+  const handleIncrement = (item) => {
     item.selectedQuantity++;
     model.state.inventory = [...model.state.inventory];
   };
 
-  const handleDecreaseAmount = (item) => {
+  const handleDecrement = (item) => {
     if (item.selectedQuantity > 0) {
       item.selectedQuantity--;
       model.state.inventory = [...model.state.inventory];
@@ -240,9 +240,9 @@ const Controller = ((model, view) => {
       if (!item) return;
 
       if (event.target.matches(".increment-btn")) {
-        handleIncreaseAmount(item);
+        handleIncrement(item);
       } else if (event.target.matches(".decrement-btn")) {
-        handleDecreaseAmount(item);
+        handleDecrement(item);
       } else if (event.target.matches(".add-to-cart-btn")) {
         handleAddToCart(item);
       } else if (event.target.matches(".delete-btn")) {
