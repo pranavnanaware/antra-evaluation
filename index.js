@@ -1,8 +1,10 @@
 const API = (() => {
   const URL = "http://localhost:3000";
+
   const getCart = () => {
     return fetch(`${URL}/cart`).then((res) => res.json());
   };
+
   const getInventory = () => {
     return fetch(`${URL}/inventory`).then((res) => res.json());
   };
@@ -26,14 +28,10 @@ const API = (() => {
   const deleteFromCart = (id) => {
     return fetch(`${URL}/cart/${id}`, {
       method: "DELETE",
-    });
+    }).then((res) => res.json());
   };
 
-  const checkout = () => {
-    return getCart().then((data) =>
-      Promise.all(data.map((item) => deleteFromCart(item.id)))
-    );
-  };
+  const checkout = () => {};
 
   return {
     getCart,
@@ -57,6 +55,7 @@ const Model = (() => {
     }
 
     set inventory(newInventory) {
+      console.log(newInventory);
       this.#inventory = newInventory.map((item) => ({
         ...item,
         selectedQuantity: isNaN(item.selectedQuantity)
@@ -98,6 +97,7 @@ const Model = (() => {
           })))
       );
       API.getInventory().then((inventory) => {
+        console.log("inventory: ", inventory);
         state.inventory = inventory;
       });
     },
@@ -158,9 +158,19 @@ const Controller = ((model, view) => {
   const handleUpdateAmount = (item, amount) => {
     item.quantity += amount;
     if (item.quantity <= 0) {
-      model.deleteFromCart(item.id);
+      model.deleteFromCart(item.id).then(() => {
+        model.state.cart = model.state.cart.filter(
+          (cartItem) => cartItem.id !== item.id
+        );
+      });
     } else {
-      model.updateCart(item.id, item.quantity);
+      model.updateCart(item.id, item.quantity).then(() => {
+        model.state.cart = model.state.cart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: item.quantity }
+            : cartItem
+        );
+      });
     }
   };
 
@@ -182,20 +192,30 @@ const Controller = ((model, view) => {
     if (cartItem) {
       handleUpdateAmount(cartItem, item.selectedQuantity);
     } else {
-      model.addToCart({
-        ...item,
-        quantity: isNaN(item.selectedQuantity) ? 0 : item.selectedQuantity,
-      });
+      model
+        .addToCart({
+          ...item,
+          quantity: isNaN(item.selectedQuantity) ? 0 : item.selectedQuantity,
+        })
+        .then((newItem) => {
+          model.state.cart = [...model.state.cart, newItem];
+        });
     }
     model.state.inventory = [...model.state.inventory];
   };
 
   const handleDelete = (item) => {
-    model.deleteFromCart(item.id);
+    model.deleteFromCart(item.id).then(() => {
+      model.state.cart = model.state.cart.filter(
+        (cartItem) => cartItem.id !== item.id
+      );
+    });
   };
 
   const handleCheckout = () => {
-    model.checkout();
+    model.checkout().then(() => {
+      model.state.cart = [];
+    });
   };
 
   const bootstrap = () => {
@@ -207,7 +227,9 @@ const Controller = ((model, view) => {
       const itemId = parentElement.getAttribute("data-id");
       if (!itemId) return;
 
-      const item = model.state.inventory.find((i) => i.id === Number(itemId));
+      const item =
+        model.state.inventory.find((i) => i.id === Number(itemId)) ||
+        model.state.cart.find((i) => i.id === Number(itemId));
       if (!item) return;
 
       if (event.target.matches(".increment-btn")) {

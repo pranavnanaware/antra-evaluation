@@ -3,14 +3,14 @@
     {
       "content": "apple",
       "id": 1,
-      "selectedQuantity": 1,
-      "quantity": 55
+      "selectedQuantity": 3,
+      "quantity": 13
     },
     {
       "content": "peach",
       "id": 2,
-      "selectedQuantity": 0,
-      "quantity": 14
+      "selectedQuantity": 2,
+      "quantity": 2
     }
   ],
   "inventory": [
