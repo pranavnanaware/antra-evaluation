@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  height: 80vh;
+}
+
+#app {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.inventory-container,
+.cart-container {
+  width: 45%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.inventory-container ul,
+.cart-container ul {
+  border-radius: 5px;
+  padding: 10px;
+}
+
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #e8decf;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.delete-btn,
+.decrement-btn,
+.increment-btn,
+.add-to-cart-btn,
+.checkout-btn {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  background-color: #0056b3;
+}
+
+.add-to-cart-btn {
+  background-color: #0056b3;
+}
+
+.checkout-btn {
+  height: 40px;
+  background-color: black;
+}
+
+.decrement-btn {
+  background-color: red;
+}
+
+.increment-btn {
+  background-color: green;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+li:first-child {
+  margin-top: 0;
+}
+
+button:active {
+  background-color: #333;
+}
+
+.cart-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.quantity {
+  margin: 0 10px;
+}
