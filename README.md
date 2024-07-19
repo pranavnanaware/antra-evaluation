@@ -21,11 +21,10 @@ You need to have `node` and `npm` installed on your machine. You can download an
 ### Installation
 
 1. Clone the repo:
+
    ```sh
    git clone https://github.com/pranavnanaware/antra-evaluation.git
    ```
-
-````
 
 2. Navigate to the project directory:
 
@@ -41,7 +40,7 @@ You need to have `node` and `npm` installed on your machine. You can download an
 
 4. Start the development server:
 
-   ```sh
+   ```
    npm start
    ```
 
@@ -60,17 +59,6 @@ You need to have `node` and `npm` installed on your machine. You can download an
 - `style.css`: The main CSS file for styling the application.
 - `index.js`: The main JavaScript file containing the Model, View, and Controller modules.
 
-## API
-
-The application uses a simple RESTful API to interact with the backend.
-
-- `GET /cart`: Get the list of items in the cart.
-- `GET /inventory`: Get the list of items in the inventory.
-- `POST /cart`: Add a new item to the cart.
-- `PATCH /cart/:id`: Update the quantity of an item in the cart.
-- `DELETE /cart/:id`: Delete an item from the cart.
-- `POST /cart/checkout`: Checkout and clear the cart.
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
@@ -80,7 +68,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Pranav Nanaware - [LinkedIn](https://www.linkedin.com/in/pranavnanaware/) - nanawarepranav@gmail.com
 
 Project Link: [https://github.com/pranavnanaware/antra-evaluation](https://github.com/pranavnanaware/antra-evaluation)
-
-
-
-````
