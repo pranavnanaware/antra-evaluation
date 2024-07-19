@@ -31,7 +31,11 @@ const API = (() => {
     }).then((res) => res.json());
   };
 
-  const checkout = () => {};
+  const checkout = () => {
+    return getCart().then((data) =>
+      Promise.all(data.map((item) => deleteFromCart(item.id)))
+    );
+  };
 
   return {
     getCart,
@@ -213,9 +217,12 @@ const Controller = ((model, view) => {
   };
 
   const handleCheckout = () => {
-    model.checkout().then(() => {
-      model.state.cart = [];
-    });
+    document
+      .querySelector(".checkout-btn")
+      .addEventListener("click", async () => {
+        await model.checkout();
+        state.cart = await model.getCart();
+      });
   };
 
   const bootstrap = () => {
@@ -244,6 +251,7 @@ const Controller = ((model, view) => {
       } else if (event.target.matches(".checkout-btn")) {
         handleCheckout();
       }
+      handleCheckout();
     });
   };
 
